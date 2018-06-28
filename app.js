@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const fs                                  = require('fs');
 const createError                         = require('http-errors');
 const express                             = require('express');
@@ -12,8 +12,10 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_USER_PASSWOR
 
 const indexRouter = require('./routes/index');
 
-const typeDefs = fs.readFileSync('./graphql/user/user.gql', 'utf8');
-const resolvers = require('./graphql/user/resolver');
+const typeDefsLog = fs.readFileSync('./graphql/user/user.gql', 'utf8');
+const resolversLog = require('./graphql/user/resolver');
+const typeDefs  = fs.readFileSync('./graphql/history/history.gql', 'utf8');
+const resolvers = require('./graphql/history/resolver');
 
 const app = express();
 const db  = mongoose.connection;
