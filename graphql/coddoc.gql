@@ -26,7 +26,8 @@ type Payload {
 
 type Query {
   histories: [History]
-  history(_id: String): History 
+  history(_id: String): History
+  user(token: String): User
 }
 
 type Mutation {
