@@ -1,9 +1,29 @@
-const secretKey     = process.env.SECRETKEY_JWT;
-const bcrypt        = require('bcryptjs');
-const jwt           = require('jsonwebtoken');
-const User          = require('../../models/Users');
+const secretKey = process.env.SECRETKEY_JWT;
+const bcrypt    = require('bcryptjs');
+const jwt       = require('jsonwebtoken');
+const User      = require('../models/Users');
+const History   = require('../models/History');
 
-const userResolver = {
+const mapResolver = {
+  Query: {
+    histories: async () => {
+      try {
+        const result = await History.find();
+        return result;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    history: async (_, { _id }) => {
+      console.log(_id)
+      try {
+        const result = await History.findById(_id);
+        return result;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
   Mutation: {
     register: async (_, { full_name, username, email, password }) => {
       try {
@@ -45,8 +65,20 @@ const userResolver = {
       } catch (error) {
         console.error(error);
       }
+    },
+    saveHistory: async (_, { code, result, doc }) => {
+      try {
+        const history = await History.create({
+          code,
+          result,
+          doc
+        });
+        return history;
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
-}
+};
 
-module.exports = userResolver;
+module.exports = mapResolver;
