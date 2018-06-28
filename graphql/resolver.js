@@ -8,7 +8,7 @@ const mapResolver = {
   Query: {
     histories: async () => {
       try {
-        const result = await History.find();
+        let result = await History.find();
         return result;
       } catch (error) {
         console.error(error);
@@ -17,7 +17,16 @@ const mapResolver = {
     history: async (_, { _id }) => {
       console.log(_id)
       try {
-        const result = await History.findById(_id);
+        let result = await History.findById(_id);
+        return result;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    user: async (_, { token }) => {
+      let decoded = jwt.verify(token, secretKey)
+      try {
+        let result = await User.findById(decoded.id);
         return result;
       } catch (error) {
         console.error(error);
@@ -27,7 +36,7 @@ const mapResolver = {
   Mutation: {
     register: async (_, { full_name, username, email, password }) => {
       try {
-        const user = await User.create({
+        let user = await User.create({
           full_name,
           username,
           avatar: 'ini foto',
@@ -36,7 +45,7 @@ const mapResolver = {
           histories: []
         });
 
-        const token = jwt.sign({ id: user._id, username: user.username, email: user.email }, secretKey);
+        let token = jwt.sign({ id: user._id, username: user.username, email: user.email }, secretKey);
 
         return {
           token,
@@ -48,13 +57,13 @@ const mapResolver = {
     },
     login: async (_, { email, password }) => {
       try {
-        const user = await User.findOne({ email });
+        let user = await User.findOne({ email });
 
         if (user) {
-          const hashed = bcrypt.compareSync(password, user.password);
+          let hashed = bcrypt.compareSync(password, user.password);
 
           if (hashed) {
-            const token = jwt.sign({ id: user._id, username: user.username, email: user.email }, secretKey);
+            let token = jwt.sign({ id: user._id, username: user.username, email: user.email }, secretKey);
 
             return {
               token,
@@ -68,7 +77,7 @@ const mapResolver = {
     },
     saveHistory: async (_, { code, result, doc }) => {
       try {
-        const history = await History.create({
+        let history = await History.create({
           code,
           result,
           doc
