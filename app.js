@@ -1,13 +1,32 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+require('dotenv').config();
+const fs                                  = require('fs');
+const createError                         = require('http-errors');
+const express                             = require('express');
+const path                                = require('path');
+const cookieParser                        = require('cookie-parser');
+const logger                              = require('morgan');
+const mongoose                            = require('mongoose');
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const { makeExecutableSchema }            = require('graphql-tools');
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_USER_PASSWORD}@ds121301.mlab.com:21301/coddoc`)
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
 
-var app = express();
+const typeDefs  = fs.readFileSync('./graphql/history/history.gql', 'utf8');
+const resolvers = require('./graphql/history/resolver');
+
+const app = express();
+const db  = mongoose.connection;
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('Connect to Mongoose Database CoddoC');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +39,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+app.use('/graphql', graphqlExpress({ schema }))
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
