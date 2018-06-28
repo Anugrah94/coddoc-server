@@ -8,6 +8,13 @@ type User {
   histories: [Id]
 }
 
+type History {
+  _id: String
+  code: String
+  result: String
+  doc: [String]
+}
+
 type Id {
   _id: String
 }
@@ -17,7 +24,13 @@ type Payload {
   token: String
 }
 
+type Query {
+  histories: [History]
+  history(_id: String): History 
+}
+
 type Mutation {
   login(email: String, password: String): Payload
   register(full_name: String, username: String, email: String, password: String): Payload
+  saveHistory(code: String, result: String, doc: [String]): History
 }
