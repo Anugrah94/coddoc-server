@@ -1,0 +1,23 @@
+type User {
+  _id: String
+  full_name: String
+  username: String
+  avatar: String
+  email: String
+  password: String
+  histories: [Id]
+}
+
+type Id {
+  _id: String
+}
+
+type Payload {
+  user: User
+  token: String
+}
+
+type Mutation {
+  login(email: String, password: String): Payload
+  register(full_name: String, username: String, email: String, password: String): Payload
+}
