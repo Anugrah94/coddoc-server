@@ -1,0 +1,15 @@
+type History {
+  _id: String
+  code: String
+  result: String
+  doc: [String]
+}
+
+type Query {
+  histories: [History]
+  history(_id: String): History 
+}
+
+type Mutation {
+  saveHistory(code: String, result: String, doc: [String]): History
+}
