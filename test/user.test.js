@@ -91,7 +91,7 @@ describe('user resolvers', () => {
       })
       .end((err, res) => {
         if(err) {
-          throw err;
+          throw err.message;
         };
         expect(res.body.data.register).to.be.null;
         done();
@@ -221,6 +221,53 @@ describe('user resolvers', () => {
         expect(res.body.data.login).to.be.null;
         done();
       })
+  });
+
+  it('update user', (done) => {
+    chai.request(app)
+      .post('/graphql')
+      .send({
+        query:`
+          mutation{
+            updateUser(token:"${token}" full_name: "asep", email:"asep@mail.com", username:"asep44"){
+              full_name
+              username
+              email
+            }
+          }
+        `
+      })
+      .end((err, res) => {
+        if(err) {
+          throw err;
+        };
+        expect(res.status).to.be.equal(200);
+        expect(res.body.data).to.be.an('object');
+        done();
+      });
+  });
+
+  it('update user without token', (done) => {
+    chai.request(app)
+      .post('/graphql')
+      .send({
+        query:`
+          mutation{
+            updateUser( full_name: "asep", email:"asep@mail.com", username:"asep44"){
+              full_name
+              username
+              email
+            }
+          }
+        `
+      })
+      .end((err, res) => {
+        if(err) {
+          throw err;
+        };
+        expect(res.body.data.updateUser).to.be.null;
+        done();
+      });
   });
 
   it('delete user', (done) => {

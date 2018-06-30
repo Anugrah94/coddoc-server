@@ -4,11 +4,13 @@ const expect   = chai.expect;
 const app      = require('../app');
 chai.use(chaiHttp);
 
-const name_test   = 'ok';
-const code_test   = 'ok';
-const result_test = 'ok';
-const doc_test    = 'ok';
-var   _id         = '';
+const name_test               = 'ok';
+const code_test               = 'ok';
+const result_test             = 'ok';
+const doc_test                = 'ok';
+const language_programme_test = 'Javascript';
+var   _id                     = '';
+const dummy_user_id           = '5b35aac98f0acf187dd5a561';
 
 
 describe('history resolvers', () => {
@@ -21,7 +23,8 @@ describe('history resolvers', () => {
             histories {
               _id
               code
-              result
+              language_programme
+              user
               doc
             }
           }
@@ -43,11 +46,12 @@ describe('history resolvers', () => {
       .send({
         query:`
           mutation{
-            saveHistory(name: "${name_test}", code: "${code_test}", result: "${result_test}", doc: "${doc_test}"){
+            saveHistory(name: "${name_test}", code: "${code_test}", user: "${dummy_user_id}", doc: "${doc_test}", language_programme:"${language_programme_test}"){
               _id,
               name,
               code,
-              result,
+              language_programme
+              user
               doc
             }
           }
@@ -70,11 +74,12 @@ describe('history resolvers', () => {
       .send({
         query:`
           mutation{
-            saveHistory( code: "${code_test}", result: "${result_test}", doc: "${doc_test}"){
+            saveHistory( language_programme:"${language_programme_test}", code: "${code_test}", doc: "${doc_test}", user: "${dummy_user_id}"){
               _id,
               name,
               code,
-              result,
+              language_programme
+              user
               doc
             }
           }
@@ -95,11 +100,12 @@ describe('history resolvers', () => {
       .send({
         query:`
           mutation{
-            saveHistory( result: "${result_test}", doc: "${doc_test}"){
+            saveHistory( user: "${dummy_user_id}", language_programme:"${language_programme_test}", doc: "${doc_test}"){
               _id,
               name,
               code,
-              result,
+              language_programme
+              user
               doc
             }
           }
@@ -121,8 +127,10 @@ describe('history resolvers', () => {
         query:`
           query{
             history(_id: "${_id}") {
+              name
               code
-              result
+              language_programme
+              user
               doc
             }
           }
@@ -148,7 +156,8 @@ describe('history resolvers', () => {
               _id,
               name,
               code,
-              result,
+              language_programme
+              user
               doc
             }
           }

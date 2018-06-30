@@ -25,7 +25,7 @@ const mapResolver = {
     user: async (_, { token }) => {
       let decoded = jwt.verify(token, secretKey);
       try {
-        let result = await User.findById(decoded.id);
+        let result = await User.findById({_id: decoded.id});
         return result;
       } catch (error) {
         return error;
@@ -56,8 +56,8 @@ const mapResolver = {
           token,
           user
         };
-      } catch (error) {
-        return error
+      } catch (errors) {
+        return errors;
       }
     },
     login: async (_, { email, password }) => {
@@ -77,6 +77,23 @@ const mapResolver = {
         return error;
       }
     },
+    updateUser: async (_, { token, full_name, username, email }) => {
+      const decoded = jwt.verify(token, secretKey);
+      if(decoded) {
+        try {
+          let update = await User.findOneAndUpdate({ _id: decoded.id },{ $set: {
+            full_name,
+            username,
+            email
+          }}, { new: true });
+          return update;
+        } catch (error) {
+          return error;
+        }
+      } else {
+        return 'You not have authorize and authentication to do this action !!'
+      }
+    },
     deleteUser: async (_, { email }) => {
       try {
         let result = await User.findOneAndRemove({ email })
@@ -85,12 +102,13 @@ const mapResolver = {
         return error;
       }
     },
-    saveHistory: async (_, { name, code, result, doc }) => {
+    saveHistory: async (_, { user, name, code, language_programme, doc }) => {
       try {
         let history = await History.create({
+          user,
           name,
+          language_programme,
           code,
-          result,
           doc
         });
         return history;
