@@ -2,15 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const historySchema = new Schema({
+  name: {
+    type: String,
+    default: 'Untitled'
+  },
+  language_programme: {
+    type: String,
+    required: true
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
   code: {
-    type: String,
-    required: true
-  },
-  result: {
     type: String,
     required: true
   },

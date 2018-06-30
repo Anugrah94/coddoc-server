@@ -10,8 +10,10 @@ type User {
 
 type History {
   _id: String
+  user: String
+  name: String
   code: String
-  result: String
+  language_programme: String
   doc: [String]
 }
 
@@ -28,10 +30,14 @@ type Query {
   histories: [History]
   history(_id: String): History
   user(token: String): User
+  users: [User]
 }
 
 type Mutation {
   login(email: String, password: String): Payload
   register(full_name: String, username: String, email: String, password: String): Payload
-  saveHistory(code: String, result: String, doc: [String]): History
+  updateUser(token: String, full_name: String, username: String, email: String): User
+  deleteUser(email: String): User
+  saveHistory(name: String, code: String, language_programme: String, user: String, doc: [String]): History
+  deleteHistory(_id: String): History
 }
