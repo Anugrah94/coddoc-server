@@ -6,10 +6,6 @@ const historySchema = new Schema({
     type: String,
     default: 'Untitled'
   },
-  language_programme: {
-    type: String,
-    required: true
-  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -17,10 +13,7 @@ const historySchema = new Schema({
   code: {
     type: String,
     required: true
-  },
-  doc: [{
-    type: String
-  }]
+  }
 }, {
   timestamps: true
 });

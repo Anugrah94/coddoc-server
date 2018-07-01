@@ -8,8 +8,7 @@ const full_name_test = 'anugrah';
 const userName_test  = 'anugrah94';
 const email_test     = 'anugrah@mail.com';
 const password_test  = '@Qwerty1234';
-var token          = '';
-
+var token            = '';
 
 describe('user resolvers', () => {
   it('allUsers', (done) => {
