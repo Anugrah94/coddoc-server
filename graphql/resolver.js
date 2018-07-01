@@ -52,7 +52,6 @@ const mapResolver = {
       let doc = [];
       try {
         for(let i=0; i< syntaxes.length; i++) {
-          console.log('--->', syntaxes[i])
           let result = await Documentation.findOne({ syntax: syntaxes[i] });
           doc.push(result);
         };
@@ -118,18 +117,17 @@ const mapResolver = {
     },
     deleteUser: async (_, { email }) => {
       try {
-        let result = await User.findOneAndRemove({ email })
+        let result = await User.findOneAndRemove({ email });
         return result;
       } catch (error) {
         return error;
       }
     },
-    saveHistory: async (_, { user, name, code, language_programme }) => {
+    saveHistory: async (_, { user, name, code }) => {
       try {
         let history = await History.create({
           user,
           name,
-          language_programme,
           code
         });
         return history;
@@ -139,7 +137,7 @@ const mapResolver = {
     },
     deleteHistory: async (_, { _id }) => {
       try {
-        let result = await History.findByIdAndRemove(_id)
+        let result = await History.findByIdAndRemove(_id);
         return result;
       } catch (error) {
         return error;
@@ -155,7 +153,15 @@ const mapResolver = {
       } catch (error) {
         return error;
       }
-    }
+    },
+    deleteDocumentation: async (_, { _id }) => {
+      try {
+        let result = await Documentation.findByIdAndRemove(_id);
+        return result;
+      } catch (error) {
+        return error;
+      }
+    },
   },
 };
 

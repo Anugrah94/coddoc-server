@@ -13,10 +13,10 @@ type History {
   user: String
   name: String
   code: String
-  language_programme: String
 }
 
 type Documentation {
+  _id: String
   syntax: String
   doc: [String]
 }
@@ -44,7 +44,8 @@ type Mutation {
   register(full_name: String, username: String, email: String, password: String): Payload
   updateUser(token: String, full_name: String, username: String, email: String): User
   deleteUser(email: String): User
-  saveHistory(name: String, code: String, language_programme: String, user: String): History
+  saveHistory(name: String, code: String, user: String): History
   deleteHistory(_id: String): History
   saveDocumentation(syntax: String, doc:[String]): Documentation
+  deleteDocumentation(_id: String): Documentation
 }

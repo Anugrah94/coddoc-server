@@ -6,10 +6,6 @@ const historySchema = new Schema({
     type: String,
     default: 'Untitled'
   },
-  language_programme: {
-    type: String,
-    required: true
-  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
