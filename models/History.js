@@ -17,10 +17,7 @@ const historySchema = new Schema({
   code: {
     type: String,
     required: true
-  },
-  doc: [{
-    type: String
-  }]
+  }
 }, {
   timestamps: true
 });

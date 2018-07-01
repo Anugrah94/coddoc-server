@@ -1,8 +1,9 @@
-const secretKey = process.env.SECRETKEY_JWT;
-const bcrypt    = require('bcryptjs');
-const jwt       = require('jsonwebtoken');
-const User      = require('../models/Users');
-const History   = require('../models/History');
+const secretKey     = process.env.SECRETKEY_JWT;
+const bcrypt        = require('bcryptjs');
+const jwt           = require('jsonwebtoken');
+const User          = require('../models/User');
+const History       = require('../models/History');
+const Documentation = require('../models/Documentation');
 
 const mapResolver = {
   Query: {
@@ -25,7 +26,7 @@ const mapResolver = {
     user: async (_, { token }) => {
       let decoded = jwt.verify(token, secretKey);
       try {
-        let result = await User.findById({_id: decoded.id});
+        let result = await User.findById({_id: decoded.id}).populate('histories');
         return result;
       } catch (error) {
         return error;
@@ -35,6 +36,27 @@ const mapResolver = {
       try {
         let result = await User.find();
         return result;
+      } catch (error) {
+        return error;
+      }
+    },
+    documentations: async () => {
+      try {
+        let result = await Documentation.find();
+        return result;
+      } catch (error) {
+        return error;
+      }
+    },
+    documentation: async (_, { syntaxes }) => {
+      let doc = [];
+      try {
+        for(let i=0; i< syntaxes.length; i++) {
+          console.log('--->', syntaxes[i])
+          let result = await Documentation.findOne({ syntax: syntaxes[i] });
+          doc.push(result);
+        };
+        return doc;
       } catch (error) {
         return error;
       }
@@ -102,14 +124,13 @@ const mapResolver = {
         return error;
       }
     },
-    saveHistory: async (_, { user, name, code, language_programme, doc }) => {
+    saveHistory: async (_, { user, name, code, language_programme }) => {
       try {
         let history = await History.create({
           user,
           name,
           language_programme,
-          code,
-          doc
+          code
         });
         return history;
       } catch (error) {
@@ -124,7 +145,18 @@ const mapResolver = {
         return error;
       }
     },
-  }
+    saveDocumentation: async (_, { syntax, doc }) => {
+      try {
+        let documentation = await Documentation.create({
+          syntax,
+          doc
+        });
+        return documentation;
+      } catch (error) {
+        return error;
+      }
+    }
+  },
 };
 
 module.exports = mapResolver;
