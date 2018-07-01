@@ -13,5 +13,20 @@ module.exports = {
         message: 'Something wrong'
       })
     }
+  },
+  async updateHistory(req, res) {
+    const { id } = req.params;
+    const { code } = req.body;
+    try {
+      let update = await History.findByIdAndUpdate({_id: id}, {$set: {code}}, {new: true});
+      res.status(200).json({
+        message: 'History updated',
+        update
+      })
+    } catch (error) {
+      res.status(500).json({
+        message: 'Something wrong'
+      })
+    }
   }
 }
