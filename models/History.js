@@ -11,8 +11,7 @@ const historySchema = new Schema({
     ref: 'User'
   },
   code: {
-    type: String,
-    required: true
+    type: String
   }
 }, {
   timestamps: true
