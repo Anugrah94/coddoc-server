@@ -4,7 +4,7 @@ const expect   = chai.expect;
 const app      = require('../app');
 chai.use(chaiHttp);
 
-var _id          = '';
+var _id = '';
 
 describe('documentation resolvers', () => {
   it('allDocumentation', (done) => {

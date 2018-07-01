@@ -1,6 +1,5 @@
 const axios = require('axios');
 const puppeteer = require('puppeteer');
-const Documentation = require('../models/Documentation');
 
 function dataProcessing() {
   const array = [

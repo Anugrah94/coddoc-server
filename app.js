@@ -11,7 +11,8 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema }            = require('graphql-tools');
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_USER_PASSWORD}@ds121301.mlab.com:21301/coddoc`)
 
-const indexRouter = require('./routes/index');
+const indexRouter   = require('./routes/index');
+const historyRouter = require('./routes/history');
 
 const typeDefs  = fs.readFileSync('./graphql/coddoc.gql', 'utf8');
 const resolvers = require('./graphql/resolver');
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
+app.use('/history', historyRouter);
 
 app.use('/graphql', graphqlExpress({ schema }))
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));

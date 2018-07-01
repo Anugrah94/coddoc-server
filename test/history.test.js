@@ -9,7 +9,6 @@ const code_test               = 'ok';
 var   _id                     = '';
 const dummy_user_id           = '5b35aac98f0acf187dd5a561';
 
-
 describe('history resolvers', () => {
   it('allHistories', (done) => {
     chai.request(app)
