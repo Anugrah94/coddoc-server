@@ -35,13 +35,13 @@ describe('history resolvers', () => {
       });
   });
 
-  it('save history without name and code', (done) => {
+  it('save history only with name data', (done) => {
     chai.request(app)
       .post('/graphql')
       .send({
         query:`
           mutation{
-            saveHistory(user: "${dummy_user_id}" ){
+            saveHistory(name: "${name_test}" ){
               _id,
               name,
               code,
@@ -136,7 +136,7 @@ describe('history resolvers', () => {
   });
 
   
-  it('find one history', (done) => {
+  it('find one history graphql', (done) => {
     chai.request(app)
       .post('/graphql')
       .send({
@@ -157,6 +157,35 @@ describe('history resolvers', () => {
         };
         expect(res.status).to.be.equal(200);
         expect(res.body.data).to.be.an('object');
+        done();
+      })
+  });
+
+  it('find one history REST API', (done) => {
+    chai.request(app)
+      .get(`/history/${_id}`)
+      .end((err, res) => {
+        if(err) {
+          throw err;
+        };
+        expect(res.status).to.be.equal(200);
+        expect(res.body.result).to.be.an('object');
+        done();
+      })
+  });
+
+  it('update a history', (done) => {
+    chai.request(app)
+      .put(`/history/update/${_id}`)
+      .send({
+        code: 'ok'
+      })
+      .end((err, res) => {
+        if(err) {
+          throw err;
+        };
+        expect(res.status).to.be.equal(200);
+        expect(res.body.update).to.be.an('object');
         done();
       })
   });
