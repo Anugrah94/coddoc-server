@@ -104,4 +104,19 @@ describe('documentation resolvers', () => {
         done();
       });
   });
+
+  it.skip('drop documentation collection', (done) => {
+    console.log(_id)
+    chai.request(app)
+      .get('/documentation/drop-documentation')
+      .end((err, res) => {
+        if(err) {
+          throw err;
+        };
+        expect(res.status).to.be.equal(200);
+        expect(res.body.result).to.be.equal(true);
+        scrapping();
+        done();
+      });
+  });
 });
