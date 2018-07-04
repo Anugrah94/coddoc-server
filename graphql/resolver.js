@@ -123,10 +123,11 @@ const mapResolver = {
         return error;
       }
     },
-    saveHistory: async (_, { user, name, code }) => {
+    saveHistory: async (_, { token, name, code }) => {
+      const decode = jwt.verify(token, secretKey);
       try {
         let history = await History.create({
-          user,
+          user: decode.id,
           name,
           code
         });

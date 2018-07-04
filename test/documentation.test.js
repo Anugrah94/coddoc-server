@@ -81,7 +81,6 @@ describe('documentation resolvers', () => {
   });
 
   it('delete documentation', (done) => {
-    console.log(_id)
     chai.request(app)
       .post('/graphql')
       .send({
@@ -105,7 +104,7 @@ describe('documentation resolvers', () => {
       });
   });
 
-  it.skip('drop documentation collection', (done) => {
+  it('drop documentation collection', (done) => {
     console.log(_id)
     chai.request(app)
       .get('/documentation/drop-documentation')
@@ -115,7 +114,6 @@ describe('documentation resolvers', () => {
         };
         expect(res.status).to.be.equal(200);
         expect(res.body.result).to.be.equal(true);
-        scrapping();
         done();
       });
   });
