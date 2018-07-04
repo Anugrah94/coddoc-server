@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "nyc mocha --recursive --exit --timeout 60000"
+    "test": "export NODE_ENV=test && nyc mocha --recursive --exit --timeout 60000"
   },
   "dependencies": {
     "apollo-server-express": "1",
