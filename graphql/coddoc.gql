@@ -1,0 +1,51 @@
+type User {
+  _id: String
+  full_name: String
+  username: String
+  avatar: String
+  email: String
+  password: String
+  histories: [Id]
+}
+
+type History {
+  _id: String
+  user: String
+  name: String
+  code: String
+}
+
+type Documentation {
+  _id: String
+  syntax: String
+  doc: [String]
+}
+
+type Id {
+  _id: String
+}
+
+type Payload {
+  user: User
+  token: String
+}
+
+type Query {
+  histories: [History]
+  history(_id: String): History
+  user(token: String): User
+  users: [User]
+  documentations: [Documentation]
+  documentation(syntaxes: [String]): [Documentation]
+}
+
+type Mutation {
+  login(email: String, password: String): Payload
+  register(full_name: String, username: String, email: String, password: String): Payload
+  updateUser(token: String, full_name: String, username: String, email: String): User
+  deleteUser(email: String): User
+  saveHistory(name: String, code: String, token: String): History
+  deleteHistory(_id: String): History
+  saveDocumentation(syntax: String, doc:[String]): Documentation
+  deleteDocumentation(_id: String): Documentation
+}
